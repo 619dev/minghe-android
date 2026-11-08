@@ -1,0 +1,41 @@
+buildscript {
+    repositories { google(); mavenCentral() }
+    dependencies { classpath "com.android.tools.build:gradle:8.13.0" }
+}
+apply plugin: "com.android.application"
+
+android {
+    namespace 'app.fm619.minghe'
+    compileSdk 36
+    buildToolsVersion "36.0.0"
+    defaultConfig {
+        applicationId 'app.fm619.minghe'
+        minSdk 26
+        targetSdk 36
+        versionCode 10003
+        versionName '1.0.3'
+    }
+    buildFeatures { buildConfig true }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+}
+
+dependencies {
+    implementation project(':capacitor-android')
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core:1.17.0'
+    implementation 'org.linphone:linphone-sdk-android:5.4.129'
+}
+
+def webOutput = layout.buildDirectory.dir('generated/webAssets')
+android.sourceSets.main.assets.srcDir(webOutput)
+tasks.register('bundleWeb', Sync) {
+    from('../../dist') { into 'public' }
+    into(webOutput)
+    doFirst {
+        if (!file('../../dist/index.html').isFile()) throw new GradleException('Run npm ci and npm run build first.')
+    }
+}
+tasks.named('preBuild').configure { dependsOn('bundleWeb') }

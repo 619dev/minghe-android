@@ -1,0 +1,45 @@
+:root { color-scheme: dark; font: 16px/1.45 system-ui, sans-serif; color: #eff6f2; background: #102821; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 42rem; margin: auto; padding: 1.25rem 1rem 2rem; }
+header, nav, .actions { display: flex; align-items: center; gap: .65rem; }
+header { justify-content: space-between; }
+h1, h2, h3, p { margin: 0; }
+h1 { letter-spacing: -.04em; }
+h2 { font-size: 1.25rem; }
+nav { margin-block: 1.2rem; }
+nav button { flex: 1; }
+button, input, select, textarea {
+  font: inherit; color: inherit; background: #102821; border: 1px solid #547367; border-radius: .65rem;
+  min-height: 2.85rem; padding: .6rem .85rem;
+}
+button { cursor: pointer; }
+button[aria-current], .primary { color: #09261a; background: #98e4ba; border-color: #98e4ba; font-weight: 650; }
+button:disabled { opacity: .5; cursor: default; }
+.danger { background: #652c32; border-color: #c37e84; }
+.panel, .notice { padding: 1rem; border: 1px solid #36564a; border-radius: 1rem; background: #19372e; }
+.panel, form { display: grid; gap: 1rem; }
+.notice { margin-bottom: .75rem; }
+label { display: grid; gap: .35rem; min-width: 0; }
+input, textarea, .panel select { width: 100%; }
+textarea { resize: vertical; }
+summary { cursor: pointer; }
+details > :not(summary) { margin-top: .8rem; }
+.check { display: flex; align-items: center; }
+.check input { width: 1rem; min-height: auto; }
+.online { color: #98e4ba; }
+.muted, time { color: #b4c9c0; }
+.sas { display: grid; gap: .65rem; }
+output { font: 1.5rem monospace; letter-spacing: .2em; }
+time { font-size: .85rem; }
+.dial-number { text-align: center; font-size: 1.45rem; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: .55rem; }
+.keypad button { font-size: 1.4rem; min-height: 3.2rem; }
+.dial-actions { display: grid; grid-template-columns: 1fr 2fr; gap: .55rem; }
+.call-history { margin: 0; padding: 0; list-style: none; }
+.call-history button { display: grid; width: 100%; grid-template-columns: auto 1fr auto; gap: .65rem; align-items: center; text-align: start; }
+.call-history li + li { margin-top: .45rem; }
+.call-history small { display: block; color: #b4c9c0; }
+
+.license { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .8rem; }
+a { color: #98e4ba; }

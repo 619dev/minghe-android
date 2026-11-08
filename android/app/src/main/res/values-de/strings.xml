@@ -1,0 +1,7 @@
+<resources>
+    <string name="registration">Registrierung…</string>
+    <string name="online">Online</string>
+    <string name="registration_failed">Registrierung fehlgeschlagen</string>
+    <string name="incoming">Eingehender Anruf</string>
+    <string name="decline">Ablehnen</string>
+</resources>

@@ -1,0 +1,7 @@
+Minghe is an Android client for self-hosted Minghe SIP servers. Enter the server hostname, your extension, and your SIP password to get online.
+
+Make and receive audio calls over SIP/TLS. Select SDES-SRTP or ZRTP according to your server configuration. In ZRTP calls, compare the authentication code with your peer.
+
+An ongoing Android notification accompanies background registration.
+
+Available in Simplified Chinese, English, Japanese, Korean, Russian, French, Spanish, and German.

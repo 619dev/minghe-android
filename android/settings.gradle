@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories { google(); mavenCentral(); gradlePluginPortal() }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        exclusiveContent {
+            forRepository {
+                maven { url = uri("../.sdk/maven_repository") }
+            }
+            filter { includeGroup("org.linphone") }
+        }
+    }
+}
+rootProject.name = "Minghe"
+include(":app", ":capacitor-android")
+project(":capacitor-android").projectDir = file("../node_modules/@capacitor/android/capacitor")

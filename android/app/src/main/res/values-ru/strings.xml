@@ -1,0 +1,7 @@
+<resources>
+    <string name="registration">Регистрация…</string>
+    <string name="online">В сети</string>
+    <string name="registration_failed">Ошибка регистрации</string>
+    <string name="incoming">Входящий вызов</string>
+    <string name="decline">Отклонить</string>
+</resources>

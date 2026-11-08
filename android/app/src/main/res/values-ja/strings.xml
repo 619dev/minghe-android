@@ -1,0 +1,7 @@
+<resources>
+    <string name="registration">登録中…</string>
+    <string name="online">オンライン</string>
+    <string name="registration_failed">登録失敗</string>
+    <string name="incoming">着信</string>
+    <string name="decline">拒否</string>
+</resources>

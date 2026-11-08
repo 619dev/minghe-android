@@ -1,0 +1,7 @@
+<resources>
+    <string name="registration">Registering…</string>
+    <string name="online">Online</string>
+    <string name="registration_failed">Registration failed</string>
+    <string name="incoming">Incoming call</string>
+    <string name="decline">Decline</string>
+</resources>

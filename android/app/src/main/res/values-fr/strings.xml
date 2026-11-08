@@ -1,0 +1,7 @@
+<resources>
+    <string name="registration">Inscription…</string>
+    <string name="online">En ligne</string>
+    <string name="registration_failed">Échec de l’inscription</string>
+    <string name="incoming">Appel entrant</string>
+    <string name="decline">Refuser</string>
+</resources>
