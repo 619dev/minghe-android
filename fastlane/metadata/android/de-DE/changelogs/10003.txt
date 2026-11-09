@@ -1,0 +1,2 @@
+Systemsprache als Standard, neues Symbol und Infoseite. SIP-Nachrichten wurden entfernt.
+Helles, dunkles und systemabhängiges Design sowie ein adaptives Anruffenster ergänzt.

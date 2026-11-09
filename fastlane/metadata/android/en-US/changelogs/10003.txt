@@ -1,0 +1,2 @@
+Added system language defaults, a new icon and the About screen. Removed SIP messaging.
+Added light, dark, and system themes and a responsive phone layout.

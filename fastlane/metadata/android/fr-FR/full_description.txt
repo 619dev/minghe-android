@@ -1,0 +1,3 @@
+Passez et recevez des appels SIP/TLS avec votre propre serveur Minghe. Retrouvez un clavier, un journal d’appels et les modes SDES-SRTP et ZRTP. Une notification indique l’inscription en arrière-plan.
+
+Dans À propos → Apparence, choisissez le thème système, clair ou sombre. Minghe mémorise ce choix et adapte les barres système Android. Dans une fenêtre étroite, le clavier s’affiche au-dessus du journal d’appels. Dans une fenêtre large, ils s’affichent côte à côte. L’interface tient compte des découpes de l’écran et des zones de gestes système.

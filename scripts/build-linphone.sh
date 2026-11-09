@@ -2,7 +2,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
-sdk="$root/.sdk/source"
+sdk="${LINPHONE_SOURCE_DIR:-$root/.sdk/source}"
 version=5.4.129
 revision=8121d3ba2e0e00a3a900d2efc5f2d3e2e235d665
 : "${ANDROID_HOME:?Set ANDROID_HOME to the Android SDK}"

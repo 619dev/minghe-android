@@ -23,6 +23,7 @@ export interface Status {
   verified?: boolean;
 }
 export const sip = registerPlugin<{
+  setAppearance(options: { dark: boolean }): Promise<void>;
   status(): Promise<Status>;
   discoverCertificate(options: { host: string; port: number }): Promise<{ certificate?: string; fingerprint?: string }>;
   connect(options: { account: Account & { password: string } }): Promise<void>;

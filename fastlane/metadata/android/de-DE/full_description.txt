@@ -1,0 +1,3 @@
+Tätige und empfange SIP/TLS-Anrufe über deinen eigenen Minghe-Server. Nutze das Tastenfeld und die Anrufliste sowie SDES-SRTP oder ZRTP. Eine Benachrichtigung zeigt die Registrierung im Hintergrund an.
+
+Wähle unter Über → Darstellung zwischen Systemeinstellung, Hell und Dunkel. Minghe speichert die Auswahl und passt die Android-Systemleisten an. In schmalen Fenstern stehen Tastenfeld und Anrufliste untereinander, in breiten nebeneinander. Die Oberfläche berücksichtigt Displayaussparungen und Systemgestenbereiche.

@@ -31,6 +31,24 @@ public class SipPlugin extends Plugin {
         }
         accountLoaded = true;
     }
+    @PluginMethod public void setAppearance(PluginCall call) {
+        boolean dark = call.getBoolean("dark", false);
+        getActivity().runOnUiThread(() -> {
+            android.view.Window window = getActivity().getWindow();
+            android.view.View decor = window.getDecorView();
+            int color = dark ? 0xff102821 : 0xfff0f5ef;
+            decor.setBackgroundColor(color);
+            if (Build.VERSION.SDK_INT < 35) {
+                window.setStatusBarColor(color);
+                window.setNavigationBarColor(color);
+            }
+            var insets = androidx.core.view.WindowCompat.getInsetsController(window, decor);
+            insets.setAppearanceLightStatusBars(!dark);
+            insets.setAppearanceLightNavigationBars(!dark);
+            call.resolve();
+        });
+    }
+
     @PluginMethod public void discoverCertificate(PluginCall call) {
         String host = call.getString("host", "");
         int port = call.getInt("port", 0);

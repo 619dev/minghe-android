@@ -8,6 +8,16 @@ import { version } from '../package.json';
 import './style.css';
 
 type LanguagePreference = Language | 'system';
+type ThemePreference = 'system' | 'light' | 'dark';
+
+function savedTheme(): ThemePreference {
+  const value = localStorage.getItem('themePreference');
+  return value === 'light' || value === 'dark' ? value : 'system';
+}
+
+const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+const isDark = (theme: ThemePreference) => theme === 'dark' || (theme === 'system' && systemDark.matches);
+document.documentElement.dataset.theme = isDark(savedTheme()) ? 'dark' : 'light';
 
 function systemLanguage(): Language {
   for (const locale of navigator.languages) {
@@ -18,6 +28,7 @@ function systemLanguage(): Language {
 }
 
 function App() {
+  const [theme, setTheme] = useState<ThemePreference>(savedTheme);
   const [system, setSystem] = useState(systemLanguage);
   const [preference, setPreference] = useState<LanguagePreference>(() => {
     const value = localStorage.getItem('languagePreference');
@@ -47,6 +58,18 @@ function App() {
     localStorage.setItem('languagePreference', preference);
     document.documentElement.lang = lang;
   }, [lang, preference]);
+
+  useEffect(() => {
+    localStorage.setItem('themePreference', theme);
+    const applyTheme = () => {
+      const dark = isDark(theme);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      if (Capacitor.isNativePlatform()) void sip.setAppearance({ dark }).catch(() => {});
+    };
+    applyTheme();
+    systemDark.addEventListener('change', applyTheme);
+    return () => systemDark.removeEventListener('change', applyTheme);
+  }, [theme]);
 
   useEffect(() => {
     const refresh = () => setSystem(systemLanguage());
@@ -118,7 +141,7 @@ function App() {
   const registration = online ? 'online' : status.registration === 'Failed' ? 'registrationFailed'
     : running ? 'progress' : 'offline';
 
-  return <main>
+  return <main className={tab === 'phone' ? 'phone-page' : undefined}>
     <header>
       <div><h1>Minghe</h1><p className={online ? 'online' : 'muted'} role="status">{l(registration)}{registration === 'registrationFailed' && !!status.registrationCode && ` (SIP ${status.registrationCode})`}</p></div>
       <select aria-label="Language · 语言" value={preference} onChange={event => setPreference(event.target.value as LanguagePreference)}>
@@ -159,49 +182,60 @@ function App() {
         {running && <button type="button" disabled={busy} onClick={() => void action(() => sip.disconnect())}>{l('disconnect')}</button>}
       </div>
     </form>}
-    {tab === 'phone' && <section className="panel">
-      <h2>{l('phone')}</h2>
-      {status.call && status.call !== 'idle' && <p role="status">{l(status.call)} {status.peer}{status.call === 'failed' && !!status.callCode && ` (SIP ${status.callCode})`}</p>}
-      {active ? <>
-        <div className="actions">
-          {status.call === 'incoming' && <button className="primary" disabled={busy} onClick={() => void action(() => sip.answer())}>{l('answer')}</button>}
-          <button className="danger" disabled={busy} onClick={() => void action(() => sip.hangup())}>
-            {l(status.call === 'incoming' ? 'decline' : 'hangup')}
-          </button>
-        </div>
-        {status.sas && <div className="sas">
-          <p>{l('sas')}</p><output>{status.sas}</output>
-          <button disabled={status.verified || busy} onClick={() => void action(() => sip.verify())}>
-            {l(status.verified ? 'verified' : 'verify')}
-          </button>
-        </div>}
-      </> : <form onSubmit={event => { event.preventDefault(); void action(() => sip.dial({ peer })); }}>
-        <input className="dial-number" aria-label={l('destination')} placeholder={l('destination')} required
-          inputMode="none" pattern="[1-9][0-9]{0,9}" maxLength={10} value={peer}
-          onChange={event => setPeer(event.target.value.replace(/\D/g, ''))} />
-        <div className="keypad">
-          {'123456789*0#'.split('').map(digit => <button key={digit} type="button"
-            disabled={!/^[0-9]$/.test(digit) || peer.length >= 10} onClick={() => setPeer(value => value + digit)}>
-            {digit}
-          </button>)}
-        </div>
-        <div className="dial-actions">
-          <button type="button" aria-label={l('backspace')} disabled={!peer} onClick={() => setPeer(value => value.slice(0, -1))}>⌫</button>
-          <button className="primary" disabled={!online || busy || !/^[1-9][0-9]{0,9}$/.test(peer)}>{l('dial')}</button>
-        </div>
-      </form>}
-      <h3>{l('history')}</h3>
-      {status.history?.length ? <ul className="call-history">{status.history.map((entry, index) =>
-        <li key={entry.time + ':' + index}><button onClick={() => setPeer(entry.peer)} disabled={!!active || !/^[1-9][0-9]{0,9}$/.test(entry.peer)}>
-          <span aria-hidden="true">{entry.incoming ? '↙' : '↗'}</span>
-          <span><strong>{entry.peer || '—'}</strong><small>
-            {l(entry.incoming ? 'incoming' : 'outgoing')} · {l(entry.answered ? 'answered' : 'unanswered')}
-          </small></span>
-          <time dateTime={new Date(entry.time).toISOString()}>{new Date(entry.time).toLocaleString(lang)}</time>
-        </button></li>)}</ul> : <p className="muted">{l('noCalls')}</p>}
+    {tab === 'phone' && <section className="panel phone-panel">
+      <div className="dial-section">
+        <h2>{l('phone')}</h2>
+        {status.call && status.call !== 'idle' && <p role="status">{l(status.call)} {status.peer}{status.call === 'failed' && !!status.callCode && ` (SIP ${status.callCode})`}</p>}
+        {active ? <>
+          <div className="actions">
+            {status.call === 'incoming' && <button className="primary" disabled={busy} onClick={() => void action(() => sip.answer())}>{l('answer')}</button>}
+            <button className="danger" disabled={busy} onClick={() => void action(() => sip.hangup())}>
+              {l(status.call === 'incoming' ? 'decline' : 'hangup')}
+            </button>
+          </div>
+          {status.sas && <div className="sas">
+            <p>{l('sas')}</p><output>{status.sas}</output>
+            <button disabled={status.verified || busy} onClick={() => void action(() => sip.verify())}>
+              {l(status.verified ? 'verified' : 'verify')}
+            </button>
+          </div>}
+        </> : <form onSubmit={event => { event.preventDefault(); void action(() => sip.dial({ peer })); }}>
+          <input className="dial-number" aria-label={l('destination')} placeholder={l('destination')} required
+            inputMode="none" pattern="[1-9][0-9]{0,9}" maxLength={10} value={peer}
+            onChange={event => setPeer(event.target.value.replace(/\D/g, ''))} />
+          <div className="keypad">
+            {'123456789*0#'.split('').map(digit => <button key={digit} type="button"
+              disabled={!/^[0-9]$/.test(digit) || peer.length >= 10} onClick={() => setPeer(value => value + digit)}>
+              {digit}
+            </button>)}
+          </div>
+          <div className="dial-actions">
+            <button type="button" aria-label={l('backspace')} disabled={!peer} onClick={() => setPeer(value => value.slice(0, -1))}>⌫</button>
+            <button className="primary" disabled={!online || busy || !/^[1-9][0-9]{0,9}$/.test(peer)}>{l('dial')}</button>
+          </div>
+        </form>}
+      </div>
+      <div className="history-section">
+        <h3>{l('history')}</h3>
+        {status.history?.length ? <ul className="call-history">{status.history.map((entry, index) =>
+          <li key={entry.time + ':' + index}><button onClick={() => setPeer(entry.peer)} disabled={!!active || !/^[1-9][0-9]{0,9}$/.test(entry.peer)}>
+            <span aria-hidden="true">{entry.incoming ? '↙' : '↗'}</span>
+            <span><strong>{entry.peer || '—'}</strong><small>
+              {l(entry.incoming ? 'incoming' : 'outgoing')} · {l(entry.answered ? 'answered' : 'unanswered')}
+            </small></span>
+            <time dateTime={new Date(entry.time).toISOString()}>{new Date(entry.time).toLocaleString(lang)}</time>
+          </button></li>)}</ul> : <p className="muted">{l('noCalls')}</p>}
+      </div>
     </section>}
     {tab === 'about' && <section className="panel">
       <h2>{l('about')}</h2>
+      <label>{l('appearance')}
+        <select value={theme} onChange={event => setTheme(event.target.value as ThemePreference)}>
+          <option value="system">{l('systemTheme')}</option>
+          <option value="light">{l('lightTheme')}</option>
+          <option value="dark">{l('darkTheme')}</option>
+        </select>
+      </label>
       <p>Minghe v{version}</p>
       <p>{l('author')} · 619dev</p>
       <p>{l('website')} · <a href="https://minghe.mobile" target="_blank" rel="noopener noreferrer">minghe.mobile</a></p>

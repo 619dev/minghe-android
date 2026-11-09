@@ -1,0 +1,2 @@
+Idioma del sistema por defecto, nuevo icono y pantalla Acerca de. Se retiraron los mensajes SIP.
+Temas claro, oscuro y del sistema, con un diseño de llamadas adaptable.

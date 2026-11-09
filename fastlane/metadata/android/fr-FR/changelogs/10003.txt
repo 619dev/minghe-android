@@ -1,0 +1,2 @@
+Langue du système par défaut, nouvelle icône et écran À propos. Suppression des messages SIP.
+Ajout des thèmes clair, sombre et système et d’un écran d’appel adaptatif.

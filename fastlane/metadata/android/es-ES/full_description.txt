@@ -1,0 +1,3 @@
+Haz y recibe llamadas SIP/TLS en tu propio servidor Minghe. Usa el teclado y el historial de llamadas. Elige SDES-SRTP o ZRTP según el servidor. Una notificación indica el estado del registro en segundo plano.
+
+En Acerca de → Apariencia, elige el tema del sistema, claro u oscuro. Minghe guarda la selección y adapta las barras del sistema Android. En ventanas estrechas, el teclado se muestra sobre el historial. En ventanas anchas, aparecen en paralelo. La interfaz respeta los recortes de pantalla y las zonas de gestos del sistema.
