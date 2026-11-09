@@ -34,7 +34,12 @@ Builds:
         none; else git -C "$sdk" config "$key" "https://github.com/a791143125-arch/external-$name.git";
         fi; done
       - git -C "$sdk" config submodule.mscodec2.url https://github.com/BelledonneCommunications/mscodec2.git
-      - git -C "$$linphone-sdk-github$$" submodule update --init --recursive
+      - git -C "$sdk" config submodule.mswebrtc.update none
+      - git -C "$sdk" submodule update --init belle-sip
+      - git -C "$sdk/belle-sip" config submodule.tester/cpp-httplib.url https://github.com/a791143125-arch/external-cpp-httplib.git
+      - git -C "$sdk" submodule update --init --recursive
+      - sed -i 's/-DENABLE_WEBRTC=OFF/-DENABLE_WEBRTC_AEC=OFF -DENABLE_WEBRTC_AECM=OFF
+        -DENABLE_WEBRTC_VAD=OFF -DENABLE_ILBC=OFF -DENABLE_ISAC=OFF/' scripts/build-linphone.sh
       - python3 scripts/strip-linphone-push.py "$$linphone-sdk-github$$"
     build:
       - export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
