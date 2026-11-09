@@ -7,6 +7,7 @@ WebSite: https://minghe.mobile
 SourceCode: https://github.com/619dev/minghe-android
 IssueTracker: https://github.com/619dev/minghe-android/issues
 Changelog: https://github.com/619dev/minghe-android/blob/HEAD/CHANGELOG.md
+
 AutoName: Minghe
 
 RepoType: git
@@ -15,28 +16,36 @@ Repo: https://github.com/619dev/minghe-android.git
 Builds:
   - versionName: 1.0.3
     versionCode: 10003
-    commit: v1.0.3
+    commit: 8766a5d093333fcb3158aaf93a11960601512e58
     sudo:
       - echo 'deb https://deb.debian.org/debian forky main' > /etc/apt/sources.list.d/forky.list
       - apt-get update
       - apt-get install -y -t forky nodejs npm openjdk-21-jdk-headless
-      - apt-get install -y build-essential cmake doxygen meson nasm pkgconf python3-pystache yasm
+      - apt-get install -y build-essential cmake doxygen meson nasm pkgconf python3-pystache
+        yasm
+    output: android/app/build/outputs/apk/release/app-release-unsigned.apk
     srclibs:
-      - linphone-sdk@8121d3ba2e0e00a3a900d2efc5f2d3e2e235d665
+      - linphone-sdk-github@8121d3ba2e0e00a3a900d2efc5f2d3e2e235d665
     prebuild:
-      - git -C "$$linphone-sdk$$" submodule update --init --recursive
-      - python3 scripts/strip-linphone-push.py "$$linphone-sdk$$"
+      - sdk="$$linphone-sdk-github$$"
+      - for key in $(git -C "$sdk" config -f .gitmodules --name-only --get-regexp
+        '^submodule[.]external/.*[.]url$'); do name=${key#submodule.external/}; name=${name%.url};
+        if [ "$name" = ffmpeg ]; then git -C "$sdk" config submodule.external/ffmpeg.update
+        none; else git -C "$sdk" config "$key" "https://github.com/a791143125-arch/external-$name.git";
+        fi; done
+      - git -C "$sdk" config submodule.mscodec2.url https://github.com/BelledonneCommunications/mscodec2.git
+      - git -C "$$linphone-sdk-github$$" submodule update --init --recursive
+      - python3 scripts/strip-linphone-push.py "$$linphone-sdk-github$$"
     build:
       - export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
       - export ANDROID_HOME="$$SDK$$"
       - export ANDROID_NDK_HOME="$$NDK$$"
-      - npm ci --no-audit --no-fund
+      - npm ci --ignore-scripts --no-audit --no-fund
       - npm run build
-      - LINPHONE_SOURCE_DIR="$$linphone-sdk$$" scripts/build-linphone.sh
+      - LINPHONE_SOURCE_DIR="$$linphone-sdk-github$$" scripts/build-linphone.sh
       - cd android
       - gradle --no-daemon :app:assembleRelease
     ndk: 27.0.12077973
-    output: android/app/build/outputs/apk/release/app-release-unsigned.apk
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags ^v[0-9]+\.[0-9]+\.[0-9]+$
