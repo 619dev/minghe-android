@@ -22,7 +22,7 @@ Builds:
       - apt-get update
       - apt-get install -y -t forky nodejs npm openjdk-21-jdk-headless
       - apt-get install -y build-essential cmake doxygen meson nasm pkgconf python3-pystache
-        yasm
+        python3-six yasm
     output: android/app/build/outputs/apk/release/app-release-unsigned.apk
     srclibs:
       - linphone-sdk-github@8121d3ba2e0e00a3a900d2efc5f2d3e2e235d665
@@ -40,6 +40,7 @@ Builds:
       - git -C "$sdk" submodule update --init --recursive
       - sed -i 's/-DENABLE_WEBRTC=OFF/-DENABLE_WEBRTC_AEC=OFF -DENABLE_WEBRTC_AECM=OFF
         -DENABLE_WEBRTC_VAD=OFF -DENABLE_ILBC=OFF -DENABLE_ISAC=OFF/' scripts/build-linphone.sh
+      - sed -i 's|maven { url = uri("../.sdk/maven_repository") }|mavenLocal()|' android/settings.gradle
       - python3 scripts/strip-linphone-push.py "$$linphone-sdk-github$$"
     build:
       - export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
@@ -49,7 +50,7 @@ Builds:
       - npm run build
       - LINPHONE_SOURCE_DIR="$$linphone-sdk-github$$" scripts/build-linphone.sh
       - cd android
-      - gradle --no-daemon :app:assembleRelease
+      - gradle --no-daemon -Dmaven.repo.local="$PWD/../.sdk/maven_repository" :app:assembleRelease
     ndk: 27.0.12077973
 
 AutoUpdateMode: Version

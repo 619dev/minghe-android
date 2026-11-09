@@ -25,7 +25,7 @@ openssl x509 -in server.crt -noout -fingerprint -sha256
 
 ## 소스에서 빌드
 
-JDK 21, Node.js 22.12 이상 지원 LTS, Android SDK Platform 31과 36, Build Tools 36.0.0, NDK 27.0.12077973이 필요합니다. Linphone 빌드에는 Git, CMake, Make, Python 3, Pystache, Doxygen, Meson, NASM, Yasm, pkg-config도 필요합니다. `ANDROID_HOME`을 설정하고 SDK 라이선스에 동의하세요.
+JDK 21, Node.js 22.12 이상 지원 LTS, Android SDK Platform 31과 36, Build Tools 36.0.0, NDK 27.0.12077973이 필요합니다. Linphone 빌드에는 Git, CMake, Make, Python 3, Pystache, six, Doxygen, Meson, NASM, Yasm, pkg-config도 필요합니다. `ANDROID_HOME`을 설정하고 SDK 라이선스에 동의하세요.
 
 ```sh
 npm ci

@@ -25,7 +25,7 @@ openssl x509 -in server.crt -noout -fingerprint -sha256
 
 ## ソースからビルド
 
-JDK 21、Node.js 22.12 以降のサポート対象 LTS、Android SDK Platform 31 と 36、Build Tools 36.0.0、NDK 27.0.12077973 を用意します。Linphone には Git、CMake、Make、Python 3、Pystache、Doxygen、Meson、NASM、Yasm、pkg-config も必要です。`ANDROID_HOME` を設定し、SDK ライセンスに同意します。
+JDK 21、Node.js 22.12 以降のサポート対象 LTS、Android SDK Platform 31 と 36、Build Tools 36.0.0、NDK 27.0.12077973 を用意します。Linphone には Git、CMake、Make、Python 3、Pystache、six、Doxygen、Meson、NASM、Yasm、pkg-config も必要です。`ANDROID_HOME` を設定し、SDK ライセンスに同意します。
 
 ```sh
 npm ci

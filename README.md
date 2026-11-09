@@ -31,7 +31,7 @@ openssl x509 -in server.crt -noout -fingerprint -sha256
 
 ## 从源码构建
 
-使用 JDK 21、Node.js 22.12 或更新的受支持 LTS、Android SDK Platform 31 和 36、Build Tools 36.0.0、NDK r27.0.12077973。构建 Linphone 还需要 Git、CMake、Make、Python 3、Pystache、Doxygen、Meson、NASM、Yasm 和 pkg-config。请预先接受 Android SDK 许可证，并将 `ANDROID_HOME` 指向 SDK。
+使用 JDK 21、Node.js 22.12 或更新的受支持 LTS、Android SDK Platform 31 和 36、Build Tools 36.0.0、NDK r27.0.12077973。构建 Linphone 还需要 Git、CMake、Make、Python 3、Pystache、six、Doxygen、Meson、NASM、Yasm 和 pkg-config。请预先接受 Android SDK 许可证，并将 `ANDROID_HOME` 指向 SDK。
 
 ```sh
 npm ci

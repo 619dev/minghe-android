@@ -25,7 +25,7 @@ Dans **À propos → Apparence**, choisissez le thème système, clair ou sombre
 
 ## Compilation depuis les sources
 
-Installez JDK 21, Node.js 22.12 ou une LTS prise en charge plus récente, les plateformes Android SDK 31 et 36, Build Tools 36.0.0 et NDK 27.0.12077973. Linphone nécessite aussi Git, CMake, Make, Python 3, Pystache, Doxygen, Meson, NASM, Yasm et pkg-config. Définissez `ANDROID_HOME` et acceptez les licences du SDK.
+Installez JDK 21, Node.js 22.12 ou une LTS prise en charge plus récente, les plateformes Android SDK 31 et 36, Build Tools 36.0.0 et NDK 27.0.12077973. Linphone nécessite aussi Git, CMake, Make, Python 3, Pystache, six, Doxygen, Meson, NASM, Yasm et pkg-config. Définissez `ANDROID_HOME` et acceptez les licences du SDK.
 
 ```sh
 npm ci

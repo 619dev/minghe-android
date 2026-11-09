@@ -25,7 +25,7 @@ Under **About → Appearance**, choose Follow system, Light, or Dark. Minghe rem
 
 ## Build from source
 
-Install JDK 21, Node.js 22.12 or a newer supported LTS, Android SDK Platforms 31 and 36, Build Tools 36.0.0 and NDK 27.0.12077973. The Linphone build also needs Git, CMake, Make, Python 3, Pystache, Doxygen, Meson, NASM, Yasm and pkg-config. Set `ANDROID_HOME` and accept the SDK licenses.
+Install JDK 21, Node.js 22.12 or a newer supported LTS, Android SDK Platforms 31 and 36, Build Tools 36.0.0 and NDK 27.0.12077973. The Linphone build also needs Git, CMake, Make, Python 3, Pystache, six, Doxygen, Meson, NASM, Yasm and pkg-config. Set `ANDROID_HOME` and accept the SDK licenses.
 
 ```sh
 npm ci

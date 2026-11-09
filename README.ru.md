@@ -25,7 +25,7 @@ openssl x509 -in server.crt -noout -fingerprint -sha256
 
 ## Сборка из исходников
 
-Установите JDK 21, Node.js 22.12 или более новую поддерживаемую LTS, Android SDK Platform 31 и 36, Build Tools 36.0.0 и NDK 27.0.12077973. Для Linphone также нужны Git, CMake, Make, Python 3, Pystache, Doxygen, Meson, NASM, Yasm и pkg-config. Укажите `ANDROID_HOME` и примите лицензии SDK.
+Установите JDK 21, Node.js 22.12 или более новую поддерживаемую LTS, Android SDK Platform 31 и 36, Build Tools 36.0.0 и NDK 27.0.12077973. Для Linphone также нужны Git, CMake, Make, Python 3, Pystache, six, Doxygen, Meson, NASM, Yasm и pkg-config. Укажите `ANDROID_HOME` и примите лицензии SDK.
 
 ```sh
 npm ci
