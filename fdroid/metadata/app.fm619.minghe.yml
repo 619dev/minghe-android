@@ -19,7 +19,9 @@ Builds:
     commit: 8766a5d093333fcb3158aaf93a11960601512e58
     sudo:
       - echo 'deb https://deb.debian.org/debian forky main' > /etc/apt/sources.list.d/forky.list
+      - echo 'deb https://deb.debian.org/debian bookworm main' > /etc/apt/sources.list.d/bookworm.list
       - apt-get update
+      - apt-get install -y -t bookworm openjdk-17-jdk-headless
       - apt-get install -y -t forky nodejs npm openjdk-21-jdk-headless
       - apt-get install -y build-essential cmake doxygen meson nasm pkgconf python3-pystache
         python3-six yasm
@@ -48,7 +50,13 @@ Builds:
       - export ANDROID_NDK_HOME="$$NDK$$"
       - npm ci --ignore-scripts --no-audit --no-fund
       - npm run build
-      - LINPHONE_SOURCE_DIR="$$linphone-sdk-github$$" scripts/build-linphone.sh
+      - sdk_log=$(mktemp)
+      - if JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 LINPHONE_SOURCE_DIR="$$linphone-sdk-github$$"
+        scripts/build-linphone.sh 2>&1 | tee "$sdk_log" | awk '/Built target|Build
+        files have been written|CMake Error|^FAILURE:/ {print; fflush()}'; then tail
+        -n 30 "$sdk_log"; else grep -Ei 'error:|fatal|failed|not found|exception|what
+        went wrong' "$sdk_log" | tail -n 80 || true; tail -n 160 "$sdk_log"; exit
+        1; fi
       - cd android
       - gradle --no-daemon -Dmaven.repo.local="$PWD/../.sdk/maven_repository" :app:assembleRelease
     ndk: 27.0.12077973
